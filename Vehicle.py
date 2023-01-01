@@ -23,11 +23,13 @@ class vehicle:
 
         self.rect = pygame.Rect(self.x - scroll_x, self.y - scroll_y, self.xsize, self.ysize)
         screen.blit(self.surf, (self.x - scroll_x, self.y - scroll_y))
-    def move(self, max_speed):
+    def move(self, max_speed, reverse_max_speed):
         self.angle += self.change_angle
         self.speed += self.speed_change
         if self.speed > max_speed:
             self.speed = max_speed
+        if self.speed < reverse_max_speed:
+            self.speed = reverse_max_speed
         self.angle += self.change_angle
         self.angle = self.angle % 360
         self.rect = self.surf.get_rect(center=self.rect.center)
