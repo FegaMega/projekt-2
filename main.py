@@ -1,15 +1,31 @@
 import pygame
 from pygame.locals import *
 from Vehicle import vehicle
+from utilities import screen, sx, sy
+from button import buttons
 pygame.init()
 player = vehicle()
-sx = 700
-sy = 700
-screen = pygame.display.set_mode((sx, sy), 0, 32)
-scroll = [0,0]
+settings_button = buttons(sx/2, sy/8, 92, 22, "settings_button.png", 1/8)
+scroll = [0, 0]
+mouse = [0, 0]
+mouse = pygame.mouse.get_pos()
 FONT = pygame.font.SysFont("Helvetica-bold", 50)
+first_screen = True
 r = True
-while r:
+mouse_is_clicked = False
+while r == True and first_screen == True:
+    screen.fill((0, 0, 0))
+    mouse = pygame.mouse.get_pos()
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            r = False    
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_is_clicked = True
+    settings_button.draw()
+   
+    pygame.time.Clock().tick(60)
+    pygame.display.update()
+while r == True:
     screen.fill((255, 255, 255))
     for event in pygame.event.get():
         if event.type == QUIT:
