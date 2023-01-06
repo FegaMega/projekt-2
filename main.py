@@ -9,11 +9,11 @@ settings_button = buttons(screen_size[0] / 2,(3/4) * screen_size[1], 92, 22, "se
 back_button = buttons(40, 40, 30, 30, "back_button.png", 2)
 play_button = buttons(screen_size[0] / 2, settings_button.y - 32, 92, 22, "play_button.png", 2)
 resolution_button = [
-    buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "700x700.png", 2, [700, 700]),
-    buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "720x1280.png", 2, [720, 1280]),
-    buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "1920x1080.png", 2, [1920, 1080]),
-    buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "2560x1440.png", 2, [2560, 1440]),
-    buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "unknown.png", 2, [0, 0])
+    buttons(screen_size[0] / 2, 4/6*screen_size[1], 92, 22, "700x700.png", 2, [700, 700]),
+    buttons(screen_size[0] / 2, 4/6*screen_size[1], 92, 22, "720x1280.png", 2, [1280, 720]),
+    buttons(screen_size[0] / 2, 4/6*screen_size[1], 92, 22, "1920x1080.png", 2, [1920, 1080]),
+    buttons(screen_size[0] / 2, 4/6*screen_size[1], 92, 22, "2560x1440.png", 2, [2560, 1440]),
+    buttons(screen_size[0] / 2, 4/6*screen_size[1], 92, 22, "unknown.png", 2, [0, 0])
     
 ]
 chosen_resolution = 0
@@ -65,8 +65,8 @@ while first_screen == True or open_settings == True or r == True:
             first_screen = True
             r = False
         if screen_size[0] == 700 and screen_size[1] == 700:
-            chosen_resolution = resolution_button[1]
-        elif screen_size[0] == 720 and screen_size[1] == 1280:
+            chosen_resolution = resolution_button[0]
+        elif screen_size[0] == 1280 and screen_size[1] == 720:
             chosen_resolution = resolution_button[1]
         elif screen_size[0] == 1920 and screen_size[1] == 1080:
             chosen_resolution = resolution_button[2]
@@ -76,11 +76,16 @@ while first_screen == True or open_settings == True or r == True:
             chosen_resolution = resolution_button[4]
         if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, chosen_resolution.x, chosen_resolution.y, chosen_resolution.xsize, chosen_resolution.ysize) == True:
             chose_resolution = True
+            mouse_is_clicked = False
         if chose_resolution == True:
             i = 0
             while i < len(resolution_button) - 1:
+                if i == 0:
+                    resolution_button[i].x = screen_size[0]/2 - resolution_button[i].xsize/2
                 if i != 0:
-                    resolution_button[i].y = resolution_button[i - 1].y + 44
+                    resolution_button[i].change_pos(screen_size[1] / 2, resolution_button[i - 1].y + 44)
+
+
                 resolution_button[i].draw()
                 i += 1
             for i in resolution_button:
@@ -88,7 +93,10 @@ while first_screen == True or open_settings == True or r == True:
                     chose_resolution = False
                     chosen_resolution = i
                     screen_size = i.extrainfo
+                    screen = pygame.display.set_mode((screen_size[0], screen_size[1]), 0, 32)
+                    print(screen_size)
         else:
+            chosen_resolution.change_pos(screen_size[1] / 2, 1/6*screen_size[1])
             chosen_resolution.draw()
             
         back_button.draw()

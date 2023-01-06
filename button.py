@@ -10,5 +10,8 @@ class buttons:
         self.rect = pygame.Rect(self.x, self.y, self.xsize, self.ysize)
         self.og_surf = pygame.image.load(picture)
         self.surf = pygame.transform.scale(self.og_surf, (self.xsize, self.ysize))
+    def change_pos(self, x, y):
+        self.x: int = x - self.xsize/2
+        self.y: int = y - self.ysize/2
     def draw(self):
         screen.blit(self.surf, (self.x, self.y))
