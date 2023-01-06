@@ -1,7 +1,5 @@
 import pygame, math
-sx = 700
-sy = 700
-screen = pygame.display.set_mode((sx, sy), 0, 32)
+from utilities import screen
 class vehicle:
     def __init__(self):
         self.x = 0
