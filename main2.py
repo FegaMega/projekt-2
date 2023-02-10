@@ -48,18 +48,12 @@ while first_screen == True or open_settings == True or r == True:
                 open_settings = False 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_is_clicked = True
-        if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, settings_button.x, settings_button.y, settings_button.xsize, settings_button.ysize) == True:
-            open_settings = True
-            first_screen = False
-            r = False
-        if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, play_button.x, play_button.y, play_button.xsize, play_button.ysize) == True:
-            open_settings = False
-            first_screen = False
-            r = True
-        settings_button.change_pos(screen_size[0] / 2 - 11,(3/4) * screen_size[1])
-        play_button.change_pos(screen_size[0] / 2 * play_button.scale_to_screen - 11, settings_button.y - 32)
+ 
+        play_button.change_pos((screen_size[0]/2 - 41), (screen_size[1] * 3/4))
+        print(play_button.x)
         play_button.draw()
         settings_button.draw()
+
         pygame.display.update()
         pygame.time.Clock().tick(60)
         mouse_is_clicked = False
@@ -215,3 +209,4 @@ while first_screen == True or open_settings == True or r == True:
         player.draw(scroll[0], scroll[1])
         pygame.time.Clock().tick(60)
         pygame.display.update()
+    print(play_button.x, screen_size)
