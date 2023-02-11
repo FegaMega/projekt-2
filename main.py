@@ -56,8 +56,8 @@ while first_screen == True or open_settings == True or r == True:
             open_settings = False
             first_screen = False
             r = True
-        settings_button.change_pos(screen_size[0] / 2 - 11,(3/4) * screen_size[1])
-        play_button.change_pos(screen_size[0] / 2 * play_button.scale_to_screen - 11, settings_button.y - 32)
+        settings_button.change_pos(screen_size[0] / 2 - (settings_button.xsize / 2),(3/4) * screen_size[1])
+        play_button.change_pos(screen_size[0] / 2 - (play_button.xsize / 2), settings_button.y - play_button.ysize - 10)
         play_button.draw()
         settings_button.draw()
         pygame.display.update()

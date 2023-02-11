@@ -17,12 +17,12 @@ resolution_button = [
     buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "720x1280.png", 2, [1280, 720]),
     buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "1920x1080.png", 2, [1920, 1080]),
     buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "2560x1440.png", 2, [2560, 1440]),
-    buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "unknown.png", 2, [700, 700])
+    buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "unknown.png", 2, [700, 700, "unkonwn"])
     
 ]
 dark_or_light_mode_buttons = [
-    buttons(screen_size[0] / 2, resolution_button[0].y + 22, 92, 22, "light.png", 2, ["light", (255, 255, 255)]),
-    buttons(screen_size[0] / 2, resolution_button[0].y + 22, 92, 22, "dark.png", 2, ["dark", (20, 20, 20)])
+    buttons(screen_size[0] / 2, (resolution_button[0].y + 78), 92, 22, "light.png", 2, ["light", (255, 255, 255)]),
+    buttons(screen_size[0] / 2, (resolution_button[0].y + 78), 92, 22, "dark.png", 2, ["dark", (20, 20, 20)])
 ]
 chose_dol_mode = False
 chosen_dol_mode = 0
@@ -48,12 +48,18 @@ while first_screen == True or open_settings == True or r == True:
                 open_settings = False 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_is_clicked = True
- 
-        play_button.change_pos((screen_size[0]/2 - 41), (screen_size[1] * 3/4))
-        print(play_button.x)
+        if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, settings_button.x, settings_button.y, settings_button.xsize, settings_button.ysize) == True:
+            open_settings = True
+            first_screen = False
+            r = False
+        if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, play_button.x, play_button.y, play_button.xsize, play_button.ysize) == True:
+            open_settings = False
+            first_screen = False
+            r = True
+        settings_button.change_pos(screen_size[0] / 2 - (settings_button.xsize / 2),(3/4) * screen_size[1])
+        play_button.change_pos(screen_size[0] / 2 - (play_button.xsize / 2), settings_button.y - play_button.ysize - 10)
         play_button.draw()
         settings_button.draw()
-
         pygame.display.update()
         pygame.time.Clock().tick(60)
         mouse_is_clicked = False
@@ -100,50 +106,29 @@ while first_screen == True or open_settings == True or r == True:
             chose_dol_mode = True
             mouse_is_clicked = False
 
-            
+        chosen_resolution.draw()
         back_button.draw()
         chosen_dol_mode.draw()
         if chose_resolution == True:
             i = 0
-            while i < len(resolution_button) - 1:
-                if i == 0:
-                    resolution_button[i].x = screen_size[0]/2 - resolution_button[i].xsize/2
-                else:
-                    resolution_button[i].change_pos(resolution_button[i - 1].x, resolution_button[i - 1].y + 22)
+            for button in resolution_button:
+                if len(button.extrainfo) != 3:
+                    if i == 0:
+                        button.y = screen_size[1] * 1/6
+                    else:
+                        button.y = resolution_button[i - 1].y + button.ysize
+                    i += 1
+                    button.draw()
+                    if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, button.x, button.y, button.xsize, button.ysize) == True:
+                        chosen_resolution = button
+                        chose_resolution = False
+                        screen_size = [chosen_resolution.extrainfo[0], chosen_resolution.extrainfo[1]]
+                        utilities.screen = pygame.display.set_mode((screen_size[0], screen_size[1]))
+        else:
+            chosen_resolution.change_pos(screen_size[0]/2 - chosen_resolution.xsize/2, screen_size[1] * 1/6) 
+            chosen_dol_mode.change_pos(screen_size[0]/2 - chosen_dol_mode.xsize/2,chosen_resolution.y + 44 ) 
 
-
-                resolution_button[i].draw()
-                i += 1
-            for i in resolution_button:
-                if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, i.x, i.y, i.xsize, i.ysize) == True:
-                    chose_resolution = False
-                    chosen_resolution = i
-                    screen_size = i.extrainfo
-                    utilities.screen = pygame.display.set_mode((screen_size[0], screen_size[1]), 0, 32)
-                    
-        elif chose_dol_mode:
-            chosen_resolution.change_pos(screen_size[0] / 2, 1/6*screen_size[1])
-            chosen_resolution.draw()
-        if chose_dol_mode == True:
-            i = 0
-            mouse_is_clicked = False
-            while i < len(dark_or_light_mode_buttons) - 1:
-                if i == 0:
-                    dark_or_light_mode_buttons[i].x = screen_size[0]/2 - dark_or_light_mode_buttons[i].xsize/2
-                if i != 0:
-                    dark_or_light_mode_buttons[i].change_pos(dark_or_light_mode_buttons[i - 1].x + 92, dark_or_light_mode_buttons[i - 1].y + 66)
-
-
-                dark_or_light_mode_buttons[i].draw()
-                i += 1
-            for i in dark_or_light_mode_buttons:
-                if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, i.x, i.y, i.xsize, i.ysize) == True:
-                    chose_resolution = False
-                    chosen_dol_mode = i
-                    utilities.bakround_color = i.extrainfo
-        elif chose_resolution:
-            chosen_resolution.change_pos(screen_size[0] / 2, 1/6*screen_size[1])
-            chosen_resolution.draw()
+            
         pygame.display.update()
         pygame.time.Clock().tick(60)
         mouse_is_clicked = False
@@ -209,4 +194,3 @@ while first_screen == True or open_settings == True or r == True:
         player.draw(scroll[0], scroll[1])
         pygame.time.Clock().tick(60)
         pygame.display.update()
-    print(play_button.x, screen_size)
