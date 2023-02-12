@@ -69,7 +69,7 @@ while first_screen == True or open_settings == True or r == True:
 
 
     while open_settings == True:
-        screen.fill((20, 20, 20))
+        screen.fill(bakround_color)
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -113,11 +113,11 @@ while first_screen == True or open_settings == True or r == True:
         if chose_dol_mode == True:
             i = 0
             for button in dark_or_light_mode_buttons:
-                button.x = screen_size[0]/2 + button.xsize/2
+                button.x = screen_size[0]/2 + button.xsize/2 + 5
                 if i == 0:   
-                    button.y = resolution_button[0].y + 88
+                    button.y = chosen_dol_mode.y
                 else:
-                    button.y = resolution_button[i - 1].y + button.ysize + 5
+                    button.y = dark_or_light_mode_buttons[i - 1].y + button.ysize + 5
                 i += 1
                 button.draw()
                 if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, button.x, button.y, button.xsize, button.ysize) == True:
@@ -130,7 +130,7 @@ while first_screen == True or open_settings == True or r == True:
             i = 0
             for button in resolution_button:
                 if len(button.extrainfo) != 3:
-                    button.x = screen_size[0]/2 + button.xsize/2
+                    button.x = screen_size[0]/2 + button.xsize/2 + 5
                     if i == 0:   
                         button.y = screen_size[1] * 1/6
                     else:
@@ -146,7 +146,9 @@ while first_screen == True or open_settings == True or r == True:
         chosen_resolution.change_pos(screen_size[0]/2 - chosen_resolution.xsize/2, screen_size[1] * 1/6) 
         if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, chosen_resolution.x, chosen_resolution.y, chosen_resolution.xsize, chosen_resolution.ysize) == True:
             chose_resolution = False
-        chosen_dol_mode.change_pos(screen_size[0]/2 - chosen_dol_mode.xsize/2,chosen_resolution.y + 44 ) 
+        chosen_dol_mode.change_pos(screen_size[0]/2 - chosen_dol_mode.xsize/2,chosen_resolution.y + chosen_resolution.ysize + 10 ) 
+        if mouse_is_clicked == True and checkCollisions(mouse[0], mouse[1], 1, 1, chosen_dol_mode.x, chosen_dol_mode.y, chosen_dol_mode.xsize, chosen_dol_mode.ysize) == True:
+            chose_dol_mode = False
 
             
         pygame.display.update()
@@ -158,7 +160,7 @@ while first_screen == True or open_settings == True or r == True:
 
 
     while r == True:
-        screen.fill((20, 20, 20))
+        screen.fill(bakround_color)
         for event in pygame.event.get():
             if event.type == QUIT:
                 r = False
