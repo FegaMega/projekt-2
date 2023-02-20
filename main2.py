@@ -9,9 +9,9 @@ level = [
 
 ]
 player = vehicle()
-settings_button = buttons(screen_size[0] / 2 - 11,(3/4) * screen_size[1], 92, 22, "settings_button.png", 2)
+settings_button = buttons(screen_size[0] / 2,(3/4) * screen_size[1], 92, 22, "settings_button.png", 2)
 back_button = buttons(40, 40, 30, 30, "back_button.png", 2)
-play_button = buttons(screen_size[0] / 2 - 11, settings_button.y - 32, 92, 22, "play_button.png", 2)
+play_button = buttons(screen_size[0] / 2, settings_button.y - 32, 92, 22, "play_button.png", 2)
 resolution_button = [
     buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "700x700.png", 2, [700, 700]),
     buttons(screen_size[0] / 2, 1/6*screen_size[1], 92, 22, "720x1280.png", 2, [1280, 720]),
@@ -49,9 +49,10 @@ while first_screen == True or open_settings == True or r == True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_is_clicked = True
  
-        play_button.change_pos((screen_size[0]/2 - 41), (screen_size[1] * 3/4))
-        print(play_button.x)
+        play_button.change_pos((screen_size[0]/2), (settings_button.y - 10))
+        
         play_button.draw()
+        settings_button.change_pos((screen_size[0]/2), (screen_size[1] * 3/4 - 10 - settings_button.ysize))
         settings_button.draw()
 
         pygame.display.update()
